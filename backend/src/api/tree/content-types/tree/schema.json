@@ -1,0 +1,75 @@
+{
+  "kind": "collectionType",
+  "collectionName": "trees",
+  "info": {
+    "singularName": "tree",
+    "pluralName": "trees",
+    "displayName": "tree"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "serial_number": {
+      "type": "uid"
+    },
+    "planting_date": {
+      "type": "date"
+    },
+    "planted_by": {
+      "type": "string"
+    },
+    "location_name": {
+      "type": "string",
+      "required": false
+    },
+    "google_map_location": {
+      "type": "string"
+    },
+    "planter_photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "tree_photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "tree_status": {
+      "type": "enumeration",
+      "enum": [
+        "good",
+        "needs attention",
+        "dead"
+      ]
+    },
+    "notes": {
+      "type": "text"
+    },
+    "city": {
+      "type": "enumeration",
+      "enum": [
+        "Tripoli"
+      ]
+    },
+    "tree_type": {
+      "type": "enumeration",
+      "enum": [
+        "pine",
+        "Yasmine"
+      ]
+    }
+  }
+}

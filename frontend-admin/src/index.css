@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tree Planting Project Design System - Nature-inspired colors */
+
+@layer base {
+  :root {
+    /* Nature-inspired backgrounds */
+    --background: 115 20% 98%;
+    --foreground: 150 15% 15%;
+
+    /* Card and surface colors */
+    --card: 0 0% 100%;
+    --card-foreground: 150 15% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 15% 15%;
+
+    /* Forest green primary palette */
+    --primary: 145 65% 35%;
+    --primary-foreground: 0 0% 98%;
+    --primary-hover: 145 65% 30%;
+    
+    /* Sky blue secondary palette */
+    --secondary: 200 60% 85%;
+    --secondary-foreground: 150 15% 15%;
+
+    /* Muted earth tones */
+    --muted: 115 15% 92%;
+    --muted-foreground: 150 10% 45%;
+
+    /* Accent nature colors */
+    --accent: 85 45% 75%;
+    --accent-foreground: 150 15% 15%;
+
+    /* Status colors */
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 145 65% 45%;
+    --success-foreground: 0 0% 98%;
+    --warning: 45 85% 60%;
+    --warning-foreground: 45 15% 15%;
+
+    /* Form elements */
+    --border: 115 20% 85%;
+    --input: 115 20% 95%;
+    --ring: 145 65% 35%;
+
+    --radius: 0.5rem;
+    
+    /* Custom gradients */
+    --gradient-nature: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-sky: linear-gradient(180deg, hsl(200 60% 90%), hsl(200 60% 95%));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(145 55% 45%) 50%, hsl(var(--accent)) 100%);
+    
+    /* Shadows */
+    --shadow-soft: 0 4px 20px hsl(var(--primary) / 0.1);
+    --shadow-nature: 0 8px 32px hsl(var(--primary) / 0.15);
+    
+    /* Animations */
+    --transition-nature: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --blur-background: blur(8px);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode nature theme */
+    --background: 150 15% 8%;
+    --foreground: 115 20% 95%;
+
+    --card: 150 15% 10%;
+    --card-foreground: 115 20% 95%;
+
+    --popover: 150 15% 10%;
+    --popover-foreground: 115 20% 95%;
+
+    --primary: 145 55% 55%;
+    --primary-foreground: 150 15% 8%;
+    --primary-hover: 145 55% 50%;
+
+    --secondary: 150 15% 15%;
+    --secondary-foreground: 115 20% 95%;
+
+    --muted: 150 15% 15%;
+    --muted-foreground: 115 10% 65%;
+
+    --accent: 85 35% 55%;
+    --accent-foreground: 150 15% 8%;
+
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 145 55% 55%;
+    --success-foreground: 0 0% 98%;
+    --warning: 45 75% 65%;
+    --warning-foreground: 45 15% 15%;
+
+    --border: 150 15% 20%;
+    --input: 150 15% 15%;
+    --ring: 145 55% 55%;
+    
+    /* Dark mode gradients */
+    --gradient-nature: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-sky: linear-gradient(180deg, hsl(150 15% 12%), hsl(150 15% 15%));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(145 45% 40%) 50%, hsl(var(--accent)) 100%);
+    
+    --shadow-soft: 0 4px 20px hsl(0 0% 0% / 0.3);
+    --shadow-nature: 0 8px 32px hsl(0 0% 0% / 0.4);
+    
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    direction: rtl;
+    font-family: 'Noto Sans Arabic', 'Segoe UI', 'Tahoma', sans-serif;
+  }
+  
+  /* RTL-specific adjustments */
+  .rtl {
+    direction: rtl;
+  }
+  
+  /* Ensure proper text alignment for Arabic */
+  input, textarea, select {
+    text-align: right;
+  }
+  
+  /* Adjust icon positioning for RTL */
+  .rtl .absolute.left-3 {
+    left: auto;
+    right: 0.75rem;
+  }
+  
+  .rtl .pl-10 {
+    padding-left: 0;
+    padding-right: 2.5rem;
+  }
+  
+  .rtl .ml-auto {
+    margin-left: 0;
+    margin-right: auto;
+  }
+  
+  .bg-forest-blur {
+    background-image: url('/src/assets/forest-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  
+  .backdrop-nature {
+    backdrop-filter: var(--blur-background);
+    background: hsl(var(--background) / 0.9);
+  }
+}
