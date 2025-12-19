@@ -34,10 +34,6 @@ logs
 .DS_Store
 Thumbs.db
 
-# Docker
-docker-compose.yml
-Dockerfile
-.dockerignore
 
 # Documentation
 README.md
