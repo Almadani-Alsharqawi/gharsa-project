@@ -33,7 +33,7 @@ services:
       - backend-uploads:/app/public/uploads
     networks:
       - dokploy-network
-labels:
+    labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gharsa-backend.rule=Host(`strapi.gharsa.ly`)"
       - "traefik.http.routers.gharsa-backend.entrypoints=websecure"
