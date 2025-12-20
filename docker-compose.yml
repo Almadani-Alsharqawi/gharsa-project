@@ -30,13 +30,11 @@ services:
     networks:
       - dokploy-network
     labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gharsa-backend.rule=Host(`strapi.gharsa.ly`)"
+      - "traefik.http.routers.gharsa-backend.entrypoints=websecure"
+      - "traefik.http.routers.gharsa-backend.tls.certresolver=letsencrypt"
       - "traefik.http.services.backend.loadbalancer.server.port=1337"
-    healthcheck:
-      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:1337/api', (r) => {process.exit(r.statusCode === 200 || r.statusCode === 401 ? 0 : 1)})\""]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
   frontend-view:
     build:
@@ -51,12 +49,11 @@ services:
     networks:
       - dokploy-network
     labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gharsa-view.rule=Host(`gharsa.ly`)"
+      - "traefik.http.routers.gharsa-view.entrypoints=websecure"
+      - "traefik.http.routers.gharsa-view.tls.certresolver=letsencrypt"
       - "traefik.http.services.frontend-view.loadbalancer.server.port=80"
-    healthcheck:
-      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost/ || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
   frontend-admin:
     build:
@@ -71,12 +68,11 @@ services:
     networks:
       - dokploy-network
     labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gharsa-admin.rule=Host(`admin.gharsa.ly`)"
+      - "traefik.http.routers.gharsa-admin.entrypoints=websecure"
+      - "traefik.http.routers.gharsa-admin.tls.certresolver=letsencrypt"
       - "traefik.http.services.frontend-admin.loadbalancer.server.port=80"
-    healthcheck:
-      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost/ || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
 volumes:
   backend-uploads:
