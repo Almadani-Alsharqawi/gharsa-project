@@ -33,12 +33,16 @@ services:
       - backend-uploads:/app/public/uploads
     networks:
       - dokploy-network
-    labels:
+labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gharsa-backend.rule=Host(`strapi.gharsa.ly`)"
       - "traefik.http.routers.gharsa-backend.entrypoints=websecure"
       - "traefik.http.routers.gharsa-backend.tls.certresolver=letsencrypt"
       - "traefik.http.services.backend.loadbalancer.server.port=1337"
+      # --- التعديلات الجديدة هنا ---
+      - "traefik.http.routers.gharsa-backend.middlewares=strapi-headers"
+      - "traefik.http.middlewares.strapi-headers.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.middlewares.strapi-headers.headers.customrequestheaders.X-Forwarded-Host=strapi.gharsa.ly"
 
   frontend-view:
     build:
