@@ -343,11 +343,18 @@ const TreeDataPage = () => {
 
             {/* Explore Project Button */}
             <Button
-              onClick={() => navigate('/')}
+              asChild
               className="w-full mt-2 bg-green-200 text-green-900 hover:bg-green-300 transition-colors rounded-2xl py-6 text-lg font-semibold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
             >
-              <Leaf className="w-5 h-5" />
-              استكشاف مشروع غرسة
+              <a
+                href="https://gharsa.rehlaa.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2"
+              >
+                <Leaf className="w-5 h-5" />
+                استكشاف مشروع غرسة
+              </a>
             </Button>
           </div>
 

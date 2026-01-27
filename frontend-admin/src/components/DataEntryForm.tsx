@@ -13,6 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { QRScanner } from "./QRScanner";
 import { ArabicFileInput } from "./ui/arabic-file-input";
+import { Combobox } from "@/components/ui/combobox";
 import { cn } from "@/lib/utils";
 import { 
   CalendarIcon, 
@@ -24,7 +25,8 @@ import {
   LogOut,
   Send,
   Upload,
-  MapPin
+  MapPin,
+  School
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -45,12 +47,13 @@ const dataEntrySchema = z.object({
   treeStatus: z.enum(["good", "needs attention", "dead"], {
     required_error: "يرجى اختيار حالة الشجرة",
   }),
-  city: z.enum(["طرابلس"], {
+  city: z.enum(["طرابلس", "الزاوية", "زليتن", "سبها", "مصراته", "الخمس", "غريان", "ترهونة"], {
     required_error: "يرجى اختيار المدينة",
   }),
-  treeType: z.enum(["صنوبر", "ياسمين"], {
+  treeType: z.enum(["سرول", "كافور", "فيكس", "تيكوما", "خروب"], {
     required_error: "يرجى اختيار نوع الشجرة",
   }),
+  school: z.string().min(1, "اسم المدرسة مطلوب"),
   notes: z.string().min(1, "الملاحظات مطلوبة"),
 });
 
@@ -69,6 +72,7 @@ export const DataEntryForm = () => {
       plantedBy: "",
       locationName: "",
       mapLocation: "",
+      school: "",
       notes: "",
     },
   });
@@ -82,6 +86,20 @@ export const DataEntryForm = () => {
         switch (arabicValue) {
           case "طرابلس":
             return "Tripoli";
+          case "الزاوية":
+            return "Zawiya";
+          case "زليتن":
+            return "Zliten";
+          case "سبها":
+            return "Sabha";
+          case "مصراته":
+            return "Misrata";
+          case "الخمس":
+            return "Khoms";
+          case "غريان":
+            return "Gharyan";
+          case "ترهونة":
+            return "Tarhuna";
           default:
             return arabicValue;
         }
@@ -89,10 +107,16 @@ export const DataEntryForm = () => {
 
       const mapTreeTypeToEnglish = (arabicValue: string): string => {
         switch (arabicValue) {
-          case "صنوبر":
-            return "pine";
-          case "ياسمين":
-            return "Yasmine";
+          case "سرول":
+            return "Cypress";
+          case "كافور":
+            return "Camphor";
+          case "فيكس":
+            return "Ficus";
+          case "تيكوما":
+            return "Tecoma";
+          case "خروب":
+            return "Carob";
           default:
             return arabicValue;
         }
@@ -108,6 +132,7 @@ export const DataEntryForm = () => {
         tree_status: data.treeStatus,
         city: mapCityToEnglish(data.city), // Map Arabic to English
         tree_type: mapTreeTypeToEnglish(data.treeType), // Map Arabic to English
+        school: data.school, // School name (custom or selected)
         notes: data.notes,
         // Note: users_permissions_user is removed - Strapi will automatically link to authenticated user via JWT
       };
@@ -477,6 +502,13 @@ export const DataEntryForm = () => {
                     </FormControl>
                     <SelectContent className="backdrop-nature border-0">
                       <SelectItem value="طرابلس">طرابلس</SelectItem>
+                      <SelectItem value="الزاوية">الزاوية</SelectItem>
+                      <SelectItem value="زليتن">زليتن</SelectItem>
+                      <SelectItem value="سبها">سبها</SelectItem>
+                      <SelectItem value="مصراته">مصراته</SelectItem>
+                      <SelectItem value="الخمس">الخمس</SelectItem>
+                      <SelectItem value="غريان">غريان</SelectItem>
+                      <SelectItem value="ترهونة">ترهونة</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -501,10 +533,41 @@ export const DataEntryForm = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="backdrop-nature border-0">
-                      <SelectItem value="صنوبر">صنوبر</SelectItem>
-                      <SelectItem value="ياسمين">ياسمين</SelectItem>
+                      <SelectItem value="سرول">سرول</SelectItem>
+                      <SelectItem value="كافور">كافور</SelectItem>
+                      <SelectItem value="فيكس">فيكس</SelectItem>
+                      <SelectItem value="تيكوما">تيكوما</SelectItem>
+                      <SelectItem value="خروب">خروب</SelectItem>
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* School - Searchable Combobox */}
+            <FormField
+              control={form.control}
+              name="school"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-primary font-medium flex items-center gap-2">
+                    <School className="w-4 h-4" />
+                    المدرسة *
+                  </FormLabel>
+                  <FormControl>
+                    <Combobox
+                      options={[
+                        "مدرسة حسان بن ثابت للتعليم الأساسي",
+                        "مدرسة الطليعة للتعليم الأساسي",
+                        "مدرسة الغيران الجنوبية للتعليم الأساسي"
+                      ]}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      placeholder="اختر المدرسة أو اكتب اسم مدرسة جديدة"
+                      emptyText="لا توجد نتائج"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
