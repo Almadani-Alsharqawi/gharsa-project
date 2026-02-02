@@ -7,9 +7,12 @@ services:
       dockerfile: Dockerfile
     container_name: gharsa-backend
     restart: unless-stopped
+    # السطر التالي ضروري لفتح وضع التطوير مؤقتاً للتعديل
+    command: ["npm", "run", "develop"]
     expose:
       - "1337"
     environment:
+      # تأكد من تغيير NODE_ENV في ملف الـ .env إلى development أيضاً
       - NODE_ENV=${NODE_ENV}
       - HOST=0.0.0.0
       - PORT=1337
@@ -25,12 +28,13 @@ services:
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_SSL=${DATABASE_SSL:-false}
-      # الإضافات الضرورية لحل مشكلة Register-Admin والـ Cookies
       - STRAPI_URL=https://strapi.gharsa.ly
       - STRAPI_ADMIN_URL=https://strapi.gharsa.ly/admin
       - STRAPI_PROXY=true
     volumes:
       - backend-uploads:/app/public/uploads
+      # السطر التالي يربط كود السيرفر الحالي للسماح لسترابي بحفظ التعديلات في ملفات الـ schema
+      - ./backend:/app 
     networks:
       - dokploy-network
     labels:
@@ -39,7 +43,6 @@ services:
       - "traefik.http.routers.gharsa-backend.entrypoints=websecure"
       - "traefik.http.routers.gharsa-backend.tls.certresolver=letsencrypt"
       - "traefik.http.services.backend.loadbalancer.server.port=1337"
-      # --- التعديلات الجديدة هنا ---
       - "traefik.http.routers.gharsa-backend.middlewares=strapi-headers"
       - "traefik.http.middlewares.strapi-headers.headers.customrequestheaders.X-Forwarded-Proto=https"
       - "traefik.http.middlewares.strapi-headers.headers.customrequestheaders.X-Forwarded-Host=strapi.gharsa.ly"
