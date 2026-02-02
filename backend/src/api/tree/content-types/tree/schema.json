@@ -59,17 +59,10 @@
       "type": "text"
     },
     "city": {
-      "type": "enumeration",
-      "enum": [
-        "Tripoli"
-      ]
+      "type": "string"
     },
     "tree_type": {
-      "type": "enumeration",
-      "enum": [
-        "pine",
-        "Yasmine"
-      ]
+      "type": "string"
     }
   }
 }

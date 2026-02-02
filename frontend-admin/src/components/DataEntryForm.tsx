@@ -78,59 +78,16 @@ export const DataEntryForm = () => {
     setIsSubmitting(true);
     
     try {
-      // Map Arabic UI values to English backend enum values
-      const mapCityToEnglish = (arabicValue: string): string => {
-        switch (arabicValue) {
-          case "طرابلس":
-            return "Tripoli";
-          case "الزاوية":
-            return "Zawiya";
-          case "زليتن":
-            return "Zliten";
-          case "سبها":
-            return "Sabha";
-          case "مصراته":
-            return "Misrata";
-          case "الخمس":
-            return "Khoms";
-          case "غريان":
-            return "Gharyan";
-          case "ترهونة":
-            return "Tarhuna";
-          default:
-            return arabicValue;
-        }
-      };
-
-      const mapTreeTypeToEnglish = (arabicValue: string): string => {
-        switch (arabicValue) {
-          case "سرول":
-            return "Cypress";
-          case "صنوبر":
-            return "pine";
-          case "كافور":
-            return "Camphor";
-          case "فيكس":
-            return "Ficus";
-          case "تيكوما":
-            return "Tecoma";
-          case "خروب":
-            return "Carob";
-          default:
-            return arabicValue;
-        }
-      };
-
-      // Prepare data for Strapi v5 - use correct field names and English enum values
+      // Prepare data for Strapi v5 - send raw Arabic values directly to API
       const treeData = {
         serial_number: data.qrCode,
         planting_date: data.plantingDate.toISOString().split('T')[0], // Format as YYYY-MM-DD
-        planted_by: data.plantedBy, // Updated field name
+        planted_by: data.plantedBy,
         location_name: data.locationName,
         google_map_location: data.mapLocation,
         tree_status: data.treeStatus,
-        city: mapCityToEnglish(data.city), // Map Arabic to English
-        tree_type: mapTreeTypeToEnglish(data.treeType), // Map Arabic to English
+        city: data.city, // Send Arabic value directly
+        tree_type: data.treeType, // Send Arabic value directly
         notes: data.notes,
         // Note: users_permissions_user is removed - Strapi will automatically link to authenticated user via JWT
       };
@@ -138,7 +95,7 @@ export const DataEntryForm = () => {
       // Debug: Log the data being sent
       console.log('=== DataEntryForm Debug ===');
       console.log('Form data (Arabic UI values):', data);
-      console.log('Tree data being sent (English backend values):', treeData);
+      console.log('Tree data being sent (raw Arabic values):', treeData);
       console.log('Authenticated user:', user?.username, '(will be auto-linked via JWT)');
 
       // Prepare files for upload (using correct field names from Strapi schema)
