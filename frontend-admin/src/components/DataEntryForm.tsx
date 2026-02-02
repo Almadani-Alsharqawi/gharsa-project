@@ -25,8 +25,7 @@ import {
   LogOut,
   Send,
   Upload,
-  MapPin,
-  School
+  MapPin
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -50,10 +49,9 @@ const dataEntrySchema = z.object({
   city: z.enum(["طرابلس", "الزاوية", "زليتن", "سبها", "مصراته", "الخمس", "غريان", "ترهونة"], {
     required_error: "يرجى اختيار المدينة",
   }),
-  treeType: z.enum(["سرول", "كافور", "فيكس", "تيكوما", "خروب"], {
+  treeType: z.enum(["سرول", "صنوبر", "كافور", "فيكس", "تيكوما", "خروب"], {
     required_error: "يرجى اختيار نوع الشجرة",
   }),
-  school: z.string().min(1, "اسم المدرسة مطلوب"),
   notes: z.string().min(1, "الملاحظات مطلوبة"),
 });
 
@@ -72,7 +70,6 @@ export const DataEntryForm = () => {
       plantedBy: "",
       locationName: "",
       mapLocation: "",
-      school: "",
       notes: "",
     },
   });
@@ -109,6 +106,8 @@ export const DataEntryForm = () => {
         switch (arabicValue) {
           case "سرول":
             return "Cypress";
+          case "صنوبر":
+            return "pine";
           case "كافور":
             return "Camphor";
           case "فيكس":
@@ -132,7 +131,6 @@ export const DataEntryForm = () => {
         tree_status: data.treeStatus,
         city: mapCityToEnglish(data.city), // Map Arabic to English
         tree_type: mapTreeTypeToEnglish(data.treeType), // Map Arabic to English
-        school: data.school, // School name (custom or selected)
         notes: data.notes,
         // Note: users_permissions_user is removed - Strapi will automatically link to authenticated user via JWT
       };
@@ -356,7 +354,7 @@ export const DataEntryForm = () => {
               )}
             />
 
-            {/* Location Name */}
+            {/* Location Name - Searchable Combobox with School Options */}
             <FormField
               control={form.control}
               name="locationName"
@@ -367,10 +365,16 @@ export const DataEntryForm = () => {
                     اسم الموقع *
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="أدخل اسم الموقع"
-                      className="bg-background/50 border-border/50 focus:border-primary"
-                      {...field}
+                    <Combobox
+                      options={[
+                        "مدرسة حسان بن ثابت للتعليم الأساسي",
+                        "مدرسة الطليعة للتعليم الأساسي",
+                        "مدرسة الغيران الجنوبية للتعليم الأساسي"
+                      ]}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      placeholder="اختر المدرسة أو اكتب اسم موقع جديد"
+                      emptyText="لا توجد نتائج"
                     />
                   </FormControl>
                   <FormMessage />
@@ -534,40 +538,13 @@ export const DataEntryForm = () => {
                     </FormControl>
                     <SelectContent className="backdrop-nature border-0">
                       <SelectItem value="سرول">سرول</SelectItem>
+                      <SelectItem value="صنوبر">صنوبر</SelectItem>
                       <SelectItem value="كافور">كافور</SelectItem>
                       <SelectItem value="فيكس">فيكس</SelectItem>
                       <SelectItem value="تيكوما">تيكوما</SelectItem>
                       <SelectItem value="خروب">خروب</SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* School - Searchable Combobox */}
-            <FormField
-              control={form.control}
-              name="school"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-primary font-medium flex items-center gap-2">
-                    <School className="w-4 h-4" />
-                    المدرسة *
-                  </FormLabel>
-                  <FormControl>
-                    <Combobox
-                      options={[
-                        "مدرسة حسان بن ثابت للتعليم الأساسي",
-                        "مدرسة الطليعة للتعليم الأساسي",
-                        "مدرسة الغيران الجنوبية للتعليم الأساسي"
-                      ]}
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      placeholder="اختر المدرسة أو اكتب اسم مدرسة جديدة"
-                      emptyText="لا توجد نتائج"
-                    />
-                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
